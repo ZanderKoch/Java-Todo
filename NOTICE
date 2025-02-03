@@ -1,0 +1,7 @@
+NOTICE
+
+This project includes third-party software:
+
+- JUnit 5 (https://github.com/junit-team/junit5)  
+  Portions of this project are licensed under the Eclipse Public License 2.0.  
+  Copyright notices for individual source code files are available within the JUnit 5 source code.
