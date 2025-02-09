@@ -12,18 +12,20 @@ public class TodoItemTaskTest {
     private TodoItemTask todoItemTask;
     private TodoItem todoItem;
     private Person person;
+    private AppUser user;
 
     @BeforeEach
     void setUp() {
-        person = new Person(4, "Nisse", "Olsson", "nisse@gmail.com");
+        AppUser user = new AppUser("NOlsson", "password123", AppRole.ROLE_APP_USER);
+        person = new Person(4, "Nisse", "Olsson", "nisse@gmail.com", user);
         todoItem = new TodoItem(1, "Add unit tests", "All Classes should have a test class", LocalDate.of(1993, 12, 10), person);
         todoItemTask = new TodoItemTask(1, todoItem);
     }
 
     @Test
-    void summary() {
-        assertEquals("{id: 1, assigned: false, todoItem: Add unit tests, assignee: No assignee}",
-                todoItemTask.getSummary());
+    void testToString() {
+        assertEquals("{id: 1, assigned: false, todoItem: Add unit tests}",
+                todoItemTask.toString());
     }
 
     @Test
@@ -72,5 +74,29 @@ public class TodoItemTaskTest {
         //set an assignee first
         todoItemTask.setAssignee(person);
         todoItemTask.setAssigned(true);
+    }
+
+    @Test
+    void testEquals_SameProperties() {
+        TodoItemTask otherTask = new TodoItemTask(1, todoItem);
+        assertEquals(todoItemTask, otherTask, "TodoItemTasks with the same properties should be equal.");
+    }
+
+    @Test
+    void testNotEquals_DifferentId() {
+        TodoItemTask otherTask = new TodoItemTask(2, todoItem);
+        assertNotEquals(todoItemTask, otherTask, "TodoItemTasks with different IDs should not be equal.");
+    }
+
+    @Test
+    void testEquals_HashCodeContract() {
+        TodoItemTask otherTask = new TodoItemTask(1, todoItem);
+        assertEquals(todoItemTask.hashCode(), otherTask.hashCode(), "Equal objects must have the same hash code.");
+    }
+
+    @Test
+    void testHashCode_NotEquals() {
+        TodoItemTask otherTask = new TodoItemTask(2, todoItem);
+        assertNotEquals(todoItemTask.hashCode(), otherTask.hashCode(), "Different objects should ideally have different hash codes.");
     }
 }

@@ -3,20 +3,21 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PersonTest {
     private Person person;
+    private AppUser user;
 
     @BeforeEach
     void setUp() {
-        person = new Person(4, "Nisse", "Olsson", "nisse@gmail.com");
+        user = new AppUser("NOlsson", "password123", AppRole.ROLE_APP_USER);
+        person = new Person(4, "Nisse", "Olsson", "nisse@gmail.com", user);
     }
 
     @Test
-    void summary() {
-        String result = person.getSummary();
+    void testToString() {
+        String result = person.toString();
 
         assertEquals("{id: 4, name: Nisse Olsson, email: nisse@gmail.com}", result);
     }
@@ -24,7 +25,7 @@ public class PersonTest {
     @Test
     void ConstructorThrowsExceptionWhenFirstNameIsNull() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Person(1, null, "Olsson", "nisse@gmail.com"),
+                () -> new Person(1, null, "Olsson", "nisse@gmail.com", user),
                 "Expected IllegalArgumentException for null firstName"
         );
     }
@@ -32,7 +33,7 @@ public class PersonTest {
     @Test
     void ConstructorThrowsExceptionWhenLastNameIsNull() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Person(2, "Nisse", null, "nisse@gmail.com"),
+                () -> new Person(2, "Nisse", null, "nisse@gmail.com", user),
                 "Expected IllegalArgumentException for null lastName"
         );
     }
@@ -40,7 +41,7 @@ public class PersonTest {
     @Test
     void ConstructorThrowsExceptionWhenEmailIsNull() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Person(3, "Nisse", "Olsson", null),
+                () -> new Person(3, "Nisse", "Olsson", null, user),
                 "Expected IllegalArgumentException for null email"
         );
     }
@@ -85,5 +86,35 @@ public class PersonTest {
                 () -> person.setEmail(null),
                 "Expected IllegalArgumentException when setting email to null."
         );
+    }
+
+    @Test
+    void testEquals_SameProperties() {
+        AppUser otherUser = new AppUser("NOlsson", "password123", AppRole.ROLE_APP_USER);
+        Person otherPerson = new Person(4, "Nisse", "Olsson", "nisse@gmail.com", otherUser);
+
+        assertEquals(person, otherPerson, "Persons with the same properties should be equal.");
+    }
+
+    @Test
+    void testNotEquals_DifferentId() {
+        Person otherPerson = new Person(5, "Nisse", "Olsson", "nisse@gmail.com", user);
+
+        assertNotEquals(person, otherPerson, "Persons with different IDs should not be equal.");
+    }
+
+    @Test
+    void testEquals_HashCodeContract() {
+        AppUser otherUser = new AppUser("NOlsson", "password123", AppRole.ROLE_APP_USER);
+        Person otherPerson = new Person(4, "Nisse", "Olsson", "nisse@gmail.com", otherUser);
+
+        assertEquals(person.hashCode(), otherPerson.hashCode(), "Equal objects must have the same hash code.");
+    }
+
+    @Test
+    void testHashCode_NotEquals() {
+        Person otherPerson = new Person(5, "Nisse", "Olsson", "nisse@gmail.com", user);
+
+        assertNotEquals(person.hashCode(), otherPerson.hashCode(), "Different objects should ideally have different hash codes.");
     }
 }

@@ -1,10 +1,11 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class TodoItem {
 
-    private int id;
+    private final int id;
     private String title;
     private String taskDescription;
     private LocalDate deadline;
@@ -17,10 +18,10 @@ public class TodoItem {
             String taskDescription,
             LocalDate deadline,
             Person creator) {
-        if (title.isEmpty()){
+        if (title.isEmpty()) {
             throw new IllegalArgumentException("title may not be null or empty");
         }
-        if(deadline == null) {
+        if (deadline == null) {
             throw new IllegalArgumentException("deadline may not be null");
         }
 
@@ -41,7 +42,7 @@ public class TodoItem {
     }
 
     public void setTitle(String title) {
-        if (title.isEmpty()){
+        if (title.isEmpty()) {
             throw new IllegalArgumentException("title may not be null or empty");
         }
         this.title = title;
@@ -60,7 +61,7 @@ public class TodoItem {
     }
 
     public void setDeadline(LocalDate deadline) {
-        if(deadline == null) {
+        if (deadline == null) {
             throw new IllegalArgumentException("deadline may not be null");
         }
         this.deadline = deadline;
@@ -82,17 +83,29 @@ public class TodoItem {
         this.done = done;
     }
 
-    public String getSummary() {
-        return String.format("{id: %d, title: '%s', taskDescription: '%s', deadline: '%s', creator: '%s', done: %b}",
+    @Override
+    public String toString() {
+        return String.format("{id: %d, title: %s, taskDescription: %s, deadline: %s, done: %b}",
                 id,
                 title,
                 taskDescription == null ? "No description" : taskDescription,
                 deadline,
-                creator != null ? creator.getSummary() : "No creator",
                 done);
     }
 
     public boolean isOverdue() {
         return deadline.isBefore(LocalDate.now());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        TodoItem todoItem = (TodoItem) o;
+        return id == todoItem.id && done == todoItem.done && Objects.equals(title, todoItem.title) && Objects.equals(taskDescription, todoItem.taskDescription) && Objects.equals(deadline, todoItem.deadline);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, taskDescription, deadline, done);
     }
 }

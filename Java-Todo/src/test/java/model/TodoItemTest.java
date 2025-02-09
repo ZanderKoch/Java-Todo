@@ -11,20 +11,23 @@ public class TodoItemTest {
 
     private TodoItem todoItem;
     private Person creator;
+    private AppUser user;
+
 
     @BeforeEach
     void setUp() {
-        creator = new Person(1, "Nisse", "Olsson", "nisse@gmail.com");
+        user = new AppUser("NOlsson", "password123", AppRole.ROLE_APP_USER);
+        creator = new Person(1, "Nisse", "Olsson", "nisse@gmail.com", user);
         todoItem = new TodoItem(1, "Test Task", "Description", LocalDate.now().plusDays(1), creator);
     }
 
     @Test
-    void getSummaryReturnsCorrectFormat() {
+    void testToString() {
         String expected = String.format(
-                "{id: 1, title: 'Test Task', taskDescription: 'Description', deadline: '%s', creator: '{id: 1, name: Nisse Olsson, email: nisse@gmail.com}', done: false}",
+                "{id: 1, title: Test Task, taskDescription: Description, deadline: %s, done: false}",
                 LocalDate.now().plusDays(1)
         );
-        assertEquals(expected, todoItem.getSummary());
+        assertEquals(expected, todoItem.toString());
     }
 
     @Test
@@ -85,6 +88,30 @@ public class TodoItemTest {
         LocalDate newDeadline = LocalDate.now().plusDays(5);
         todoItem.setDeadline(newDeadline);
         assertEquals(newDeadline, todoItem.getDeadline());
+    }
+
+    @Test
+    void testEquals_SameProperties() {
+        TodoItem otherTodo = new TodoItem(1, "Test Task", "Description", LocalDate.now().plusDays(1), creator);
+        assertEquals(todoItem, otherTodo, "TodoItems with the same properties should be equal.");
+    }
+
+    @Test
+    void testNotEquals_DifferentId() {
+        TodoItem otherTodo = new TodoItem(2, "Test Task", "Description", LocalDate.now().plusDays(1), creator);
+        assertNotEquals(todoItem, otherTodo, "TodoItems with different IDs should not be equal.");
+    }
+
+    @Test
+    void testEquals_HashCodeContract() {
+        TodoItem otherTodo = new TodoItem(1, "Test Task", "Description", LocalDate.now().plusDays(1), creator);
+        assertEquals(todoItem.hashCode(), otherTodo.hashCode(), "Equal objects must have the same hash code.");
+    }
+
+    @Test
+    void testHashCode_NotEquals() {
+        TodoItem otherTodo = new TodoItem(2, "Test Task", "Description", LocalDate.now().plusDays(1), creator);
+        assertNotEquals(todoItem.hashCode(), otherTodo.hashCode(), "Different objects should ideally have different hash codes.");
     }
 }
 

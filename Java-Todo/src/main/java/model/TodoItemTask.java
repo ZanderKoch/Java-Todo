@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class TodoItemTask {
     private int id;
     private boolean assigned; /*I have no idea why this is its own field
@@ -61,12 +63,25 @@ public class TodoItemTask {
         }
     }
 
-    public String getSummary() {
-        return String.format("{id: %d, assigned: %b, todoItem: %s, assignee: %s}",
+    @Override
+    public String toString() {
+        return String.format("{id: %d, assigned: %b, todoItem: %s}",
                 this.id,
                 this.assigned,
-                this.todoItem.getTitle(),
-                this.assignee != null ? this.assignee.getFullName() : "No assignee");
+                this.todoItem.getTitle()
+        );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        TodoItemTask that = (TodoItemTask) o;
+        return id == that.id && assigned == that.assigned && Objects.equals(todoItem, that.todoItem);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, assigned, todoItem);
     }
 }
 
