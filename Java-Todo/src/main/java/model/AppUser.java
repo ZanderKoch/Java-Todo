@@ -57,7 +57,7 @@ public class AppUser {
 
     @Override
     public String toString() {
-        return String.format("{username: %s role: %s", this.username,this.role);
+        return String.format("{username: %s role: %s", this.username, this.role);
     }
 
     @Override

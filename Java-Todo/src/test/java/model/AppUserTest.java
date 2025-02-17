@@ -1,9 +1,9 @@
 package model;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AppUserTest {
 
@@ -96,39 +96,38 @@ public class AppUserTest {
 
     @Test
     public void testEqualsSameObject() {
-        assertTrue(defaultUser.equals(defaultUser));
+        assertEquals(defaultUser, defaultUser);
     }
-
 
 
     @Test
     public void testEqualsDifferentPassword() {
         // Create another AppUser with the same username and role but a different password.
         AppUser otherUser = new AppUser("john", "differentPassword", AppRole.ROLE_APP_USER);
-        assertTrue(defaultUser.equals(otherUser));
+        assertEquals(defaultUser, otherUser);
     }
 
     @Test
     public void testEqualsDifferentUsername() {
         AppUser otherUser = new AppUser("jane", "password123", AppRole.ROLE_APP_USER);
-        assertFalse(defaultUser.equals(otherUser));
+        assertNotEquals(defaultUser, otherUser);
     }
 
     @Test
     public void testEqualsDifferentRole() {
         AppUser otherUser = new AppUser("john", "password123", AppRole.ROLE_APP_ADMIN);
-        assertFalse(defaultUser.equals(otherUser));
+        assertNotEquals(defaultUser, otherUser);
     }
 
     @Test
     public void testEqualsNull() {
-        assertFalse(defaultUser.equals(null));
+        assertNotEquals(null, defaultUser);
     }
 
     @Test
     public void testEqualsDifferentClass() {
         String notAUser = "Not a user";
-        assertFalse(defaultUser.equals(notAUser));
+        assertNotEquals(defaultUser, notAUser);
     }
 
     // --- hashCode() Tests ---
