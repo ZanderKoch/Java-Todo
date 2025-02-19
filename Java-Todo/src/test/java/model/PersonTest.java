@@ -12,20 +12,20 @@ public class PersonTest {
     @BeforeEach
     void setUp() {
         user = new AppUser("NOlsson", "password123", AppRole.ROLE_APP_USER);
-        person = new Person(4, "Nisse", "Olsson", "nisse@gmail.com", user);
+        person = new Person( "Nisse", "Olsson", "nisse@gmail.com", user);
     }
 
     @Test
     void testToString() {
         String result = person.toString();
-
-        assertEquals("{id: 4, name: Nisse Olsson, email: nisse@gmail.com}", result);
+        String expected = String.format("{id: %d, name: Nisse Olsson, email: nisse@gmail.com}", person.getId());
+        assertEquals(expected, result);
     }
 
     @Test
     void ConstructorThrowsExceptionWhenFirstNameIsNull() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Person(1, null, "Olsson", "nisse@gmail.com", user),
+                () -> new Person( null, "Olsson", "nisse@gmail.com", user),
                 "Expected IllegalArgumentException for null firstName"
         );
     }
@@ -33,7 +33,7 @@ public class PersonTest {
     @Test
     void ConstructorThrowsExceptionWhenLastNameIsNull() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Person(2, "Nisse", null, "nisse@gmail.com", user),
+                () -> new Person( "Nisse", null, "nisse@gmail.com", user),
                 "Expected IllegalArgumentException for null lastName"
         );
     }
@@ -41,7 +41,7 @@ public class PersonTest {
     @Test
     void ConstructorThrowsExceptionWhenEmailIsNull() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Person(3, "Nisse", "Olsson", null, user),
+                () -> new Person( "Nisse", "Olsson", null, user),
                 "Expected IllegalArgumentException for null email"
         );
     }
@@ -89,31 +89,32 @@ public class PersonTest {
     }
 
     @Test
-    void testEquals_SameProperties() {
+    void testEqualsSameProperties() {
         AppUser otherUser = new AppUser("NOlsson", "password123", AppRole.ROLE_APP_USER);
-        Person otherPerson = new Person(4, "Nisse", "Olsson", "nisse@gmail.com", otherUser);
+        Person otherPerson = new Person(person.getId(), "Nisse", "Olsson", "nisse@gmail.com", otherUser);
+
 
         assertEquals(person, otherPerson, "Persons with the same properties should be equal.");
     }
 
     @Test
-    void testNotEquals_DifferentId() {
-        Person otherPerson = new Person(5, "Nisse", "Olsson", "nisse@gmail.com", user);
+    void testNotEqualsDifferentId() {
+        Person otherPerson = new Person( "Nisse", "Olsson", "nisse@gmail.com", user);
 
         assertNotEquals(person, otherPerson, "Persons with different IDs should not be equal.");
     }
 
     @Test
-    void testEquals_HashCodeContract() {
+    void testEqualsHashCodeContract() {
         AppUser otherUser = new AppUser("NOlsson", "password123", AppRole.ROLE_APP_USER);
-        Person otherPerson = new Person(4, "Nisse", "Olsson", "nisse@gmail.com", otherUser);
+        Person otherPerson = new Person(person.getId(), "Nisse", "Olsson", "nisse@gmail.com", otherUser);
 
         assertEquals(person.hashCode(), otherPerson.hashCode(), "Equal objects must have the same hash code.");
     }
 
     @Test
     void testHashCode_NotEquals() {
-        Person otherPerson = new Person(5, "Nisse", "Olsson", "nisse@gmail.com", user);
+        Person otherPerson = new Person( "Nisse", "Olsson", "nisse@gmail.com", user);
 
         assertNotEquals(person.hashCode(), otherPerson.hashCode(), "Different objects should ideally have different hash codes.");
     }
