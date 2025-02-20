@@ -1,5 +1,7 @@
 package model;
 
+import sequencers.TodoItemIdSequencer;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -12,6 +14,55 @@ public class TodoItem {
     private Person creator;
     private boolean done;
 
+    /**
+     * Constructs a new TodoItem with an automatically generated unique identifier.
+     * <p>
+     * This constructor is intended for use in production code. The unique ID is generated
+     * by {@code TodoItemIdSequencer.getInstance().nextId()}. The initial state of the item
+     * is set with {@code done} as {@code false}.
+     * </p>
+     *
+     * @param title           the title of the TodoItem; must not be empty
+     * @param taskDescription the description of the task; can be {@code null} if no description is provided
+     * @param deadline        the deadline for the TodoItem; must not be {@code null}
+     * @param creator         the creator of the TodoItem; can be {@code null} if not specified
+     * @throws IllegalArgumentException if the title is empty or the deadline is {@code null}
+     */
+    public TodoItem(
+            String title,
+            String taskDescription,
+            LocalDate deadline,
+            Person creator) {
+        if (title.isEmpty()) {
+            throw new IllegalArgumentException("title may not be null or empty");
+        }
+        if (deadline == null) {
+            throw new IllegalArgumentException("deadline may not be null");
+        }
+
+        this.id = TodoItemIdSequencer.getInstance().nextId();
+        this.title = title;
+        this.taskDescription = taskDescription;
+        this.deadline = deadline;
+        this.creator = creator;
+        this.done = false;
+    }
+
+    /**
+     * Constructs a new TodoItem with a specified identifier.
+     * <p>
+     * <strong>Note:</strong> This constructor is intended to be used <em>only for unit testing</em>
+     * where setting a specific ID is required. In production code, the automatically generated ID
+     * constructor should be used.
+     * </p>
+     *
+     * @param id              the explicit identifier for this TodoItem
+     * @param title           the title of the TodoItem; must not be empty
+     * @param taskDescription the description of the task; can be {@code null} if no description is provided
+     * @param deadline        the deadline for the TodoItem; must not be {@code null}
+     * @param creator         the creator of the TodoItem; can be {@code null} if not specified
+     * @throws IllegalArgumentException if the title is empty or the deadline is {@code null}
+     */
     public TodoItem(
             int id,
             String title,
