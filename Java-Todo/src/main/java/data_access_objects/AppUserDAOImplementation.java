@@ -1,6 +1,7 @@
 package data_access_objects;
 
 import model.AppUser;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Optional;
@@ -18,10 +19,10 @@ public class AppUserDAOImplementation implements AppUserDAO {
 
     @Override
     public Optional<AppUser> persist(AppUser appUser) {
-        if (collection.containsKey(appUser.getUsername())){
+        if (collection.containsKey(appUser.getUsername())) {
             return Optional.empty();
         } else {
-            collection.put(appUser.getUsername(),appUser);
+            collection.put(appUser.getUsername(), appUser);
             return Optional.of(appUser);
         }
     }

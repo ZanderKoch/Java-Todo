@@ -19,10 +19,10 @@ public class PersonDAOImplementation implements PersonDAO {
 
     @Override
     public Optional<Person> persist(Person person) {
-        if (collection.containsKey(person.getId())){
+        if (collection.containsKey(person.getId())) {
             return Optional.empty();
         } else {
-            collection.put(person.getId(),person);
+            collection.put(person.getId(), person);
             return Optional.of(person);
         }
     }
@@ -50,7 +50,7 @@ public class PersonDAOImplementation implements PersonDAO {
         collection.remove(id);
     }
 
-    public void clear(){
+    public void clear() {
         collection.clear();
     }
 }

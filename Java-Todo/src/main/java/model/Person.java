@@ -24,7 +24,7 @@ public class Person {
      * @param credentials The associated AppUser credentials (must not be null).
      * @throws IllegalArgumentException if any parameter is null.
      */
-    public Person( String firstName, String lastName, String email, AppUser credentials) {
+    public Person(String firstName, String lastName, String email, AppUser credentials) {
         if (firstName == null) {
             throw new IllegalArgumentException("firstName may not be null");
         }
@@ -59,7 +59,7 @@ public class Person {
      * @param credentials The associated AppUser credentials (must not be null).
      * @throws IllegalArgumentException if any parameter is null.
      */
-    public Person(int id,String firstName, String lastName, String email, AppUser credentials) {
+    public Person(int id, String firstName, String lastName, String email, AppUser credentials) {
         if (firstName == null) {
             throw new IllegalArgumentException("firstName may not be null");
         }

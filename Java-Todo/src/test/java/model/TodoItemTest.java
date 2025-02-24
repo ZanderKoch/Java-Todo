@@ -17,7 +17,7 @@ public class TodoItemTest {
     @BeforeEach
     void setUp() {
         user = new AppUser("NOlsson", "password123", AppRole.ROLE_APP_USER);
-        creator = new Person( "Nisse", "Olsson", "nisse@gmail.com", user);
+        creator = new Person("Nisse", "Olsson", "nisse@gmail.com", user);
         todoItem = new TodoItem(1, "Test Task", "Description", LocalDate.now().plusDays(1), creator);
     }
 

@@ -1,9 +1,9 @@
 package data_access_objects;
 
-import model.TodoItem;
-import model.Person;
-import model.AppUser;
 import model.AppRole;
+import model.AppUser;
+import model.Person;
+import model.TodoItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

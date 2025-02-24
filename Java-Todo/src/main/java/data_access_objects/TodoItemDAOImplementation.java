@@ -12,19 +12,19 @@ public class TodoItemDAOImplementation implements TodoItemDAO {
     private static final TodoItemDAOImplementation INSTANCE = new TodoItemDAOImplementation();
     private final HashMap<Integer, TodoItem> collection = new HashMap<>();
 
-    private TodoItemDAOImplementation(){}
+    private TodoItemDAOImplementation() {
+    }
 
-    public static TodoItemDAOImplementation getInstance(){
+    public static TodoItemDAOImplementation getInstance() {
         return INSTANCE;
     }
 
     @Override
     public Optional<TodoItem> persist(TodoItem todoItem) {
-        if (collection.containsKey(todoItem.getId())){
+        if (collection.containsKey(todoItem.getId())) {
             return Optional.empty();
-        }
-        else {
-            collection.put(todoItem.getId(),todoItem);
+        } else {
+            collection.put(todoItem.getId(), todoItem);
             return Optional.of(todoItem);
         }
     }

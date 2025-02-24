@@ -12,7 +12,7 @@ public class PersonTest {
     @BeforeEach
     void setUp() {
         user = new AppUser("NOlsson", "password123", AppRole.ROLE_APP_USER);
-        person = new Person( "Nisse", "Olsson", "nisse@gmail.com", user);
+        person = new Person("Nisse", "Olsson", "nisse@gmail.com", user);
     }
 
     @Test
@@ -25,7 +25,7 @@ public class PersonTest {
     @Test
     void ConstructorThrowsExceptionWhenFirstNameIsNull() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Person( null, "Olsson", "nisse@gmail.com", user),
+                () -> new Person(null, "Olsson", "nisse@gmail.com", user),
                 "Expected IllegalArgumentException for null firstName"
         );
     }
@@ -33,7 +33,7 @@ public class PersonTest {
     @Test
     void ConstructorThrowsExceptionWhenLastNameIsNull() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Person( "Nisse", null, "nisse@gmail.com", user),
+                () -> new Person("Nisse", null, "nisse@gmail.com", user),
                 "Expected IllegalArgumentException for null lastName"
         );
     }
@@ -41,7 +41,7 @@ public class PersonTest {
     @Test
     void ConstructorThrowsExceptionWhenEmailIsNull() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Person( "Nisse", "Olsson", null, user),
+                () -> new Person("Nisse", "Olsson", null, user),
                 "Expected IllegalArgumentException for null email"
         );
     }
@@ -99,7 +99,7 @@ public class PersonTest {
 
     @Test
     void testNotEqualsDifferentId() {
-        Person otherPerson = new Person( "Nisse", "Olsson", "nisse@gmail.com", user);
+        Person otherPerson = new Person("Nisse", "Olsson", "nisse@gmail.com", user);
 
         assertNotEquals(person, otherPerson, "Persons with different IDs should not be equal.");
     }
@@ -114,7 +114,7 @@ public class PersonTest {
 
     @Test
     void testHashCode_NotEquals() {
-        Person otherPerson = new Person( "Nisse", "Olsson", "nisse@gmail.com", user);
+        Person otherPerson = new Person("Nisse", "Olsson", "nisse@gmail.com", user);
 
         assertNotEquals(person.hashCode(), otherPerson.hashCode(), "Different objects should ideally have different hash codes.");
     }

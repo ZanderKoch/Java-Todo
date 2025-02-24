@@ -67,5 +67,5 @@ public class AppUserDaoImplementationTest {
         dao.remove(appUser1.getUsername());
     }
 
-    
+
 }
